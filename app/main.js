@@ -1,22 +1,34 @@
 function matchPattern(inputLine, pattern) {
+  // Handle single character patterns
   if (pattern.length === 1) {
     return inputLine.includes(pattern);
-  } else if (pattern === "\\d") {
+  }
+  // Handle digit pattern
+  else if (pattern === "\\d") {
     return /\d/.test(inputLine);
-  } else if (pattern === "\\w") {
+  }
+  // Handle word character pattern
+  else if (pattern === "\\w") {
     return /\w/.test(inputLine);
-  } else if (
+  }
+  // Handle negated character class
+  else if (
     pattern[0] === "[" &&
     pattern[1] === "^" &&
     pattern[pattern.length - 1] === "]"
   ) {
-    const chars = pattern.slice(1, -1);
+    const chars = pattern.slice(2, -1);
     return chars.split("").every((char) => !inputLine.includes(char));
-  } else if (pattern[0] === "[" && pattern[pattern.length - 1] === "]") {
+  }
+  // Handle character class
+  else if (pattern[0] === "[" && pattern[pattern.length - 1] === "]") {
     const chars = pattern.slice(1, -1);
     return chars.split("").some((char) => inputLine.includes(char));
-  } else {
-    throw new Error(`Unhandled pattern ${pattern}`);
+  }
+  // Handle complex patterns
+  else {
+    const regex = new RegExp(pattern);
+    return regex.test(inputLine);
   }
 }
 
