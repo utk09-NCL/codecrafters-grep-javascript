@@ -1,7 +1,11 @@
 function matchPattern(inputLine, pattern) {
   if (pattern.length === 1) {
     return inputLine.includes(pattern);
-  } else {
+  } else if (pattern === "\\d") {
+    return /\d/.test(inputLine);
+  }
+
+  else {
     throw new Error(`Unhandled pattern ${pattern}`);
   }
 }
